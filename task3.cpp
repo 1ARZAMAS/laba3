@@ -21,18 +21,17 @@ int main() {
 	vector<double> Coffee;
 	coffee(Tsr, Tc, HeatCoef, t, Coffee);  //расчитываем температуру по времени
 
-	cout << " Время" << "\t" << "Температура кофе" << endl;
+	cout << "Время" << "\t" << "Температура кофе" << endl;
 	int time = 0;
-	for ( auto temperature: Coffee) {
+	for (auto temperature: Coffee) {
 		cout << time << "\t"  << temperature << endl;  //вывели все значение от 0 до времени
 		time++;
 	}
 
 	double a = aproxA(Coffee);  // в a помещаем отклонение по оси времени
 	double b = aproxB(Coffee, a);   //в b помещаем отклонение по оси температуры
+    double correl = Correl(Coffee); //высчитываем коэф.корреляции
 	cout << endl << "Линия апроксимации: " << "T = " << a << " * t + " << b << endl; //линия апроксимации
-
-	double correl = Correl(Coffee); //высчитываем коэф.корреляции
 	cout << endl << "Коэффициент корреляции " << correl << endl;  //погрешность измерений, нужно для вычисления погрешности
 }
 
@@ -51,10 +50,10 @@ double aproxA(vector<double> Coffee) {
 
 	for (int i = 0; i < len; i++) {
 		ET += Coffee[i];                //сумма по температуре
-		Et += i;                      //сумма по времени
+		Et += i;                        //сумма по времени
 
 		ETt += Coffee[i] * i;           //сумма для произведения по оси температуры и времени
-		Et2 += i*i;                   //сумма для квадрата температуры
+		Et2 += i*i;                     //сумма для квадрата температуры
 	}
 	return (len * ETt - (Et * ET)) / (len * Et2 - Et * Et);
 }
@@ -73,13 +72,13 @@ double aproxB(vector<double> Coffee, double a) {
 
 double Correl(vector<double> Coffee) {
 
-	double sumTemper = 0;   //сумма температур
+	double sumTemp = 0;   //сумма температур
 	for (double T : Coffee) {
-		sumTemper += T;
+		sumTemp += T;
 	}
 
 	int len = Coffee.size();  //количество измерений
-	double TMedium = sumTemper / len;   //среднее значение всех измеренных значений
+	double TMedium = sumTemp / len;   //среднее значение всех измеренных значений
 	double tMedium = (len - 1) * len / 2;
 	double sumNumbers = 0;   //арифметическая сумма значений произведения температуры и времени
 	double tSumSquare = 0;   //арифметическая сумма квадрата времени
