@@ -33,11 +33,11 @@ func fourthFragm(x float64) float64 {
 }
 
 func main() {
-	xStart := -4.0
-	xEnd := 5.0
+	xStart := -5.0
+	xEnd := 6.0
 	dx := 0.5
 
-	file, err := os.Create("test.txt")
+	file, err := os.Create("testgo.txt")
 	if err != nil {
 		fmt.Println("При открытии файла произошла ошибка")
 		return
@@ -48,6 +48,9 @@ func main() {
 	for x := xStart; x <= xEnd; x += dx {
 		if math.Abs(x) < 0.000001 {
 			x = 0.0
+		}
+		if x >= -5.0 && x < -4.0 {
+			fmt.Fprintf(file, "%10.2f %10.2f\n", x, 2.0)
 		}
 		if x >= -4.0 && x < -2.0 {
 			fmt.Fprintf(file, "%10.2f %10.2f\n", x, firstFragm(x))
@@ -60,6 +63,9 @@ func main() {
 		}
 		if x >= 3.0 && x <= 5.0 {
 			fmt.Fprintf(file, "%10.2f %10.2f\n", x, fourthFragm(x))
+		}
+		if x > 5.0 && x < 6.0 {
+			fmt.Fprintf(file, "%10.2f %10.2f\n", x, -1.0)
 		}
 	}
 }

@@ -13,16 +13,16 @@ func coffee(Tsr, Tc, HeatCoef float64, t int, Coffee *[]float64) {
 }
 
 func aproxA(Coffee []float64) float64 {
-	var ET, Et, ETt, Et2 float64
+	var ET, Et, ETt, ET2 float64
 	len := len(Coffee)
 
 	for i := 0; i < len; i++ {
 		ET += Coffee[i]
 		Et += float64(i)
 		ETt += Coffee[i] * float64(i)
-		Et2 += float64(i * i)
+		ET2 += Coffee[i] * Coffee[i]
 	}
-	return (float64(len)*ETt - (Et * ET)) / (float64(len)*Et2 - Et*Et)
+	return (float64(len)*ETt - (Et * ET)) / ((float64(len) * ET2) - (ET * ET))
 }
 
 func aproxB(Coffee []float64, a float64) float64 {
@@ -33,7 +33,7 @@ func aproxB(Coffee []float64, a float64) float64 {
 		ET += Coffee[i]
 		Et += float64(i)
 	}
-	return (ET - a*Et) / float64(len)
+	return (Et - a*ET) / float64(len)
 }
 
 func Correl(Coffee []float64) float64 {
@@ -74,5 +74,5 @@ func main() {
 	b := aproxB(Coffee, a)
 	correl := Correl(Coffee)
 	fmt.Printf("\nЛиния апроксимации: T = %s * t + %s\n", fmt.Sprintf("%.2f", a), fmt.Sprintf("%.2f", b))
-	fmt.Printf("\nКоэффициент корреляции %s\n", fmt.Sprintf("%.2f", correl))
+	fmt.Printf("\nКоэффициент корреляции %s\n", fmt.Sprintf("%.3f", correl))
 }

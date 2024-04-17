@@ -32,8 +32,8 @@ double fourthFragm(double x){
 } 
  
 int main () { 
-    double xStart = -4.0; 
-    double xEnd = 5.0; 
+    double xStart = -5.0; 
+    double xEnd = 6.0; 
     double dx = 0.5; 
  
     ofstream outfile("test.txt"); 
@@ -46,17 +46,24 @@ int main () {
         if (abs(x) < 0.000001) { 
         x = 0.0; 
         } 
+        
+        if (x >= -5.0 && x < -4.0) { 
+            outfile << setw(10)  << x << setw(10) << "2" << endl; 
+        } 
         if (x >= -4.0 && x < -2.0) { 
             outfile << setw(10)  << x << setw(10) << firstFragm(x) << endl; 
         } 
-        if (x >= -2.0 && x < 0.0){ 
+        if (x >= -2.0 && x <= 0.0){ 
             outfile << setw(10)  << x << setw(10) << secondFragm(x) << endl; 
         } 
-        if (x >= 0.0 && x < 3.0){ 
+        if (x > 0.0 && x < 3.0){ 
             outfile << setw(10)  << x << setw(10) << thirdFragm(x) << endl; 
         } 
         if (x >= 3.0 && x <= 5.0){ 
             outfile << setw(10)  << x << setw(10) << fourthFragm(x) << endl; 
         } 
+        if (x > 5.0 && x <= 6.0) { 
+            outfile << setw(10)  << x << setw(10) << "-1" << endl; 
+        }
     } 
 }
