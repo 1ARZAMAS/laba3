@@ -97,20 +97,28 @@ bool TestMiller(int n, int t, vector<int>& qi) {
 
     if (n_minus_1 = 2 * m) {
         for (int j : qi) {
+            int result;
             for (int i = 0; i < t; i++) {
-                int a = getRandomNumber(2, n - 2); //случайное число a в диапазоне от 2 до n-2
+                int a = getRandomNumber(2, n - 1); //случайное число a в диапазоне от 2 до n-1
 
-                if (modPow(a, n_minus_1, n) == 1) { //первое условие
-                    return true;
+                if (modPow(a, n_minus_1, n) != 1) { //первое условие
+                    return false;
                 }
 
                 //второе условие
                 int q_part = n_minus_1 / j; //(a^((n-1)/q)) mod n //Выбрать рандомное qi
-                int result = modPow(a, q_part, n);
+                result = modPow(a, q_part, n);
+                if (result != 1){
+                    break;
+                }
+            }
+            if (result==1){
+            return false;//если состтавное
             }
         }
+        
     }
-    return false;
+    return true;
 }
 
 int NOD(int a, int b) {
@@ -145,26 +153,26 @@ bool TestPoklingtona(int n, int t, vector<int>& qi, int F, int R) {
     int n_minus_1 = n - 1;
 
     if (n_minus_1 = R*F) {
-        for (int q : qi) {
+        for (int i = 0; i < t; i++) {
             bool foundNonTrivialSquareRoot = false;
-            for (int i = 0; i < t; i++) {
-                int a = getRandomNumber(2, n - 2); // Random number in the range [2, n-2]
+            for (int q : qi) {
+                int a = getRandomNumber(2, n - 1); // Random number in the range [2, n-1]
                 int result = modPow(a, (n - 1) / q, n);
 
                 if (result != 1 && result != n - 1) {
                     return false; // If a^((n-1)/q) mod n is not 1 or -1, n is composite
                 }
-                if (result != 1) {
-                    foundNonTrivialSquareRoot = true;
+                if (result == 1) {
+                    foundNonTrivialSquareRoot = false;
                     break; // No need to check further for this q
                 }
             }
             if (!foundNonTrivialSquareRoot) {
-                return false; // If no non-trivial square root is found for q, n is composite
+                return true; // If no non-trivial square root is found for q, n is composite
             }
         }
     }
-    return true; // If all q have a non-trivial square root, n is probably prime
+    return false; // If all q have a non-trivial square root, n is probably prime
 }
 
 bool GOST(int t, int q1) {
@@ -173,7 +181,6 @@ bool GOST(int t, int q1) {
     while (true) {
         int N1 = ceil(pow(2, t - 1) / q1);
         int N2 = ceil(pow(2, t - 1) * 0 / (q1));
-
         double N = N1 + N2;
         if (static_cast<int>(round(N)) % 2 != 0) {
             N++;
@@ -217,6 +224,7 @@ void InPut(int RandNum, bool testResult, int k) { //выводим резуль�
 }
 
 int main() {
+    system("chcp 65001");
     srand(time(0));
     vector<int> Prime;
     Eratosthenes(Prime);
